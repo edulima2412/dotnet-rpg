@@ -29,7 +29,9 @@ namespace dotnet_rpg.Data
             Utility.CreatePasswordHash("123456", out byte[] passwordHash, out byte[] passwordSalt);
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, PasswordHash = passwordHash, PasswordSalt = passwordHash, Username = "Admin", Role = "Admin" }
+                new User { Id = 1, PasswordHash = passwordHash, PasswordSalt = passwordSalt, Username = "Admin", Role = "Admin" },
+                new User { Id = 2, PasswordHash = passwordHash, PasswordSalt = passwordSalt, Username = "User1" },
+                new User { Id = 3, PasswordHash = passwordHash, PasswordSalt = passwordSalt, Username = "User2" }
             );
 
             modelBuilder.Entity<Character>().HasData(
@@ -41,7 +43,7 @@ namespace dotnet_rpg.Data
                     Strength = 15,
                     Defense = 10,
                     Intelligence = 10,
-                    UserId = 1
+                    UserId = 2
                 },
                 new Character {
                     Id = 2,
@@ -51,7 +53,7 @@ namespace dotnet_rpg.Data
                     Strength = 5,
                     Defense = 5,
                     Intelligence = 20,
-                    UserId = 2
+                    UserId = 3
                 }
             );
 
