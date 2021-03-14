@@ -29,8 +29,7 @@ namespace dotnet_rpg.Data
             Utility.CreatePasswordHash("123456", out byte[] passwordHash, out byte[] passwordSalt);
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, PasswordHash = passwordHash, PasswordSalt = passwordHash, Username = "User1" },
-                new User { Id = 2, PasswordHash = passwordHash, PasswordSalt = passwordHash, Username = "User2" }
+                new User { Id = 1, PasswordHash = passwordHash, PasswordSalt = passwordHash, Username = "Admin", Role = "Admin" }
             );
 
             modelBuilder.Entity<Character>().HasData(
