@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using dotnet_rpg.Services.WeaponService;
 using dotnet_rpg.Services.CharacterSkillService;
 using dotnet_rpg.Services.FightService;
+using Microsoft.OpenApi.Models;
 
 namespace dotnet_rpg
 {
@@ -54,6 +55,10 @@ namespace dotnet_rpg
                 };
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RPG Api", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +70,11 @@ namespace dotnet_rpg
             }
 
             //app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RPG Api v1");
+            });
 
             app.UseRouting();
 
