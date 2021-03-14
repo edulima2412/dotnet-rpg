@@ -4,6 +4,6 @@ namespace dotnet_rpg.Dtos.Fight
 {
     public class FightRequestDto
     {
-        public List<int> CharactersId { get; set; }
+        public List<int> CharacterIds { get; set; }
     }
 }

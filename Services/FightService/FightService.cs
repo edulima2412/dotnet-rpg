@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using dotnet_rpg.Data;
 using dotnet_rpg.Dtos.Fight;
 using dotnet_rpg.Models;
@@ -12,8 +13,10 @@ namespace dotnet_rpg.Services.FightService
     public class FightService : IFightService
     {
         private readonly DataContext _context;
-        public FightService(DataContext context)
+        private readonly IMapper _mapper;
+        public FightService(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -54,7 +57,7 @@ namespace dotnet_rpg.Services.FightService
 
         private static int DoWeaponAttack(Character attacker, Character opponent)
         {
-            int damage = attacker.Weapon.Damage = (new Random().Next(attacker.Strength));
+            int damage = attacker.Weapon.Damage + (new Random().Next(attacker.Strength));
             damage -= new Random().Next(opponent.Defense);
             if (damage > 0)
                 opponent.HitPoints -= damage;
@@ -108,7 +111,7 @@ namespace dotnet_rpg.Services.FightService
 
         private static int DoSkillAttack(Character attacker, Character opponent, CharacterSkill characterSkill)
         {
-            int damage = characterSkill.Skill.Damage = (new Random().Next(attacker.Intelligence));
+            int damage = characterSkill.Skill.Damage + (new Random().Next(attacker.Intelligence));
             damage -= new Random().Next(opponent.Defense);
             if (damage > 0)
                 opponent.HitPoints -= damage;
@@ -123,11 +126,11 @@ namespace dotnet_rpg.Services.FightService
             };
             try
             {
-                List<Character> characters = 
+                List<Character> characters =
                     await _context.Characters
                     .Include(c => c.Weapon)
                     .Include(c => c.CharacterSkills).ThenInclude(cs => cs.Skill)
-                    .Where(c => request.CharactersId.Contains(c.Id)).ToListAsync();
+                    .Where(c => request.CharacterIds.Contains(c.Id)).ToListAsync();
 
                 bool defeated = false;
                 while (!defeated)
@@ -141,7 +144,7 @@ namespace dotnet_rpg.Services.FightService
                         string attackUsed = string.Empty;
 
                         bool useWeapon = new Random().Next(2) == 0;
-                        if(useWeapon)
+                        if (useWeapon)
                         {
                             attackUsed = attacker.Weapon.Name;
                             damage = DoWeaponAttack(attacker, opponent);
@@ -164,22 +167,38 @@ namespace dotnet_rpg.Services.FightService
                             response.Data.Log.Add($"{attacker.Name} wins with {attacker.HitPoints} HP left!");
                             break;
                         }
-
-                        characters.ForEach(c => {
-                            c.Fights++;
-                            c.HitPoints = 100;
-                        });
-
-                        _context.Characters.UpdateRange(characters);
-                        await _context.SaveChangesAsync();
                     }
                 }
+
+                characters.ForEach(c =>
+                {
+                    c.Fights++;
+                    c.HitPoints = 100;
+                });
+
+                _context.Characters.UpdateRange(characters);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
             }
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<HighScoreDto>>> GetHighScore()
+        {
+            List<Character> characters = await _context.Characters
+                .Where(c => c.Fights > 0)
+                .OrderByDescending(c => c.Victories)
+                .ThenBy(c => c.Defeats)
+                .ToListAsync();
+
+            var response = new ServiceResponse<List<HighScoreDto>>
+            {
+                Data = characters.Select(c => _mapper.Map<HighScoreDto>(c)).ToList()
+            };
 
             return response;
         }
