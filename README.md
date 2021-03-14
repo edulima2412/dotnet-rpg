@@ -7,40 +7,40 @@
 
 ### Swagger Preview
 <p align="center">
- <img width="50%" src="https://user-images.githubusercontent.com/28990547/110966289-ded4f080-8333-11eb-8a58-e6c77ce80fd9.gif" />
+ <img width="50%" src="https://user-images.githubusercontent.com/28990547/111080123-b851b980-84db-11eb-955f-f5e180a5fff2.PNG" />
 </p>
 
 :star: Se puder me dar estrela no GitHub — Ajuda!
 
 ## Web API Core
 * The Model-View-Controller (MVC) pattern
-*Create models and controllers
-*Attribute routing (with parameters)
-*The HTTP request methods GET, POST, PUT & DELETE
-*Best practices for your Web API like a ServiceResponse class and Data-Transfer-Objects (DTOs)
-*Map your models with AutoMapper
+* Create models and controllers
+* Attribute routing (with parameters)
+* The HTTP request methods GET, POST, PUT & DELETE
+* Best practices for your Web API like a ServiceResponse class and Data-Transfer-Objects (DTOs)
+* Map your models with AutoMapper
 
 ## Entity Framework Core
-*Object-Relational-Mapping
-*Code-First Migration
-*SQL Server Express
-*How to use a DataContext and a proper ConnectionString
-*All previous HTTP requests with Entity Framework Core to save your data in a SQL Server & SQLite database
-*Data Seeding: Insert data with a migration programmatically
+* Object-Relational-Mapping
+* Code-First Migration
+* SQL Server Express
+* How to use a DataContext and a proper ConnectionString
+* All previous HTTP requests with Entity Framework Core to save your data in a SQL Server & SQLite database
+* Data Seeding: Insert data with a migration programmatically
 
 ## Authentication
-*Token Authentication with JSON Web Tokens
-*Claims
-*Secure controllers with the Authorize attribute
-*Add roles to the users
+* Token Authentication with JSON Web Tokens
+* Claims
+* Secure controllers with the Authorize attribute
+* Add roles to the users
 
 ## Advanced Relationships with Entity Framework Core
-*One-to-one relationships
-*One-to-many relationships
-*Many-to-many relationships
-*Include entities with Entity Framework Core
-*Get the proper relations between entities
+* One-to-one relationships
+* One-to-many relationships
+* Many-to-many relationships
+* Include entities with Entity Framework Core
+* Get the proper relations between entities
 
 ## More Than Just CRUD
-*Start automatic fights
-*Filter and order RPG characters by their highscore
+* Start automatic fights
+* Filter and order RPG characters by their highscore
